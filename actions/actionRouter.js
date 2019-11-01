@@ -22,20 +22,12 @@ router.get('/:project_id/action/', validateProject, (req, res) => {
 })
 
 router.get('/:project_id/action/:id', validateProject, (req, res) => {
-    // db.get(req.params.id)
-    //     .then(action => {
-    //         res.status(200).json(action)
-    //     })
-    //     .catch(err => {
-    //         res.status(500).json("Bad request")
-    //     })
+    const actionID = req.params.id
     projectDB.get(req.params.project_id)
         .then(actions => {
             if (actions) {
-                db.get(req.project.id)
+                db.get(actionID)
                     .then(action => {
-                        console.log(action.project_id)
-                        console.log(req.params.project_id)
                         if (`${action.project_id}` === req.params.project_id) {
                             res.status(200).json(action)
                         } else {
@@ -54,10 +46,46 @@ router.get('/:project_id/action/:id', validateProject, (req, res) => {
         })
 })
 
-// router.update('/:project_id/action/:id', )
+router.post('/:project_id/action/', (req, res) => {
+    const newAction = req.body;
+    projectDB.get(req.params.project_id)
+        .then(action => {
+            db.insert(newAction)
+                .then(success => {
+                    res.status(200).json(success)
+                })
+                .catch(err => {
+                    res.status(500).json({ error: "unable to post new Action" })
+                })
+        })
+        .catch(err => {
+            res.status(500).json({ error: "Unable to get proper project" })
+        })
+})
+
+router.put('/:project_id/action/:id', validateProject, (req, res) => {
+    const updateAction = req.body;
+    projectDB.get(req.params.project_id)
+        .then(action => {
+            db.update(req.params.id, updateAction)
+                .then(updated => {
+                    res.status(200).json(updated)
+                })
+                .catch(err => {
+                    res.status(500).json({ error: `Unable to update action ${action.name}` })
+                })
+        })
+        .catch(err => {
+            res.status(500).json({ error: "Cannot retreive project" })
+        })
+})
+
+// router.delete('/:project_id/action/:id', validateProject, (req, res) => {
+//     projectDB.get(req.params.project_id)
+// })
 
 function validateProject(req, res, next) {
-    projectDB.get(req.params.id)
+    projectDB.get(req.params.project_id)
         .then(project => {
             if (project) {
                 req.project = project
