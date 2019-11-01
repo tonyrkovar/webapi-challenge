@@ -26,13 +26,28 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+    # Express is a package that allows user to create a server instance and then write that server to function as a Web API.
+        ## express helps users build their api by parsing their request data using express.json() to allow post and put command to function properly.
+            ### 
+
+
+
 - [ ] Describe Middleware?
+
+    # middle ware is a set of code/program that your code gets passed through before reaching the client to run checks. The biggest use of middleware is reusable validation checks that you write yourself along with security packages that you can pass you entire code through when hosting. 
+
 
 - [ ] Describe a Resource?
 
+    # I'm not exactly sure what this question is asking but if I had to guess you're talking about npm resources. Which are packages that help programmers perform common functions with standardized code to save time and complexity of code. 
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+    # status(200) with a json object that contains the data or just a success message.
+
 - [ ] How can we partition our application into sub-applications?
+
+    # I'm not 100% on this but we can do that by keeping our code files learn and only housing the most necessary items. For example having out middleware be in it's own file and import it into the necessary areas. and keeping the sever and index seperate.
 
 ## Project Setup
 
