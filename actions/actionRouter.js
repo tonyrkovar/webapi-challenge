@@ -80,9 +80,18 @@ router.put('/:project_id/action/:id', validateProject, (req, res) => {
         })
 })
 
-// router.delete('/:project_id/action/:id', validateProject, (req, res) => {
-//     projectDB.get(req.params.project_id)
-// })
+router.delete('/:project_id/action/:id', validateProject, (req, res) => {
+    projectDB.get(req.params.project_id)
+        .then(action => {
+            db.remove(req.params.id)
+                .then(deleted => {
+                    res.status(200).json(deleted)
+                })
+        })
+        .catch(() => {
+            res.status(500).json("Could not reach that project")
+        })
+})
 
 function validateProject(req, res, next) {
     projectDB.get(req.params.project_id)
